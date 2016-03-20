@@ -4,16 +4,16 @@ describe Ebt do
   describe "#new" do
     let(:ebt) {Ebt.new("./spec/support_files/ebt.csv")}
     it "returns two ebt records" do
-      expect(ebt.rows.count).to eql(2)
+      expect(ebt.stores.count).to eql(2)
     end
 
     it "skips the first row" do
-      store = ebt.rows.first
+      store = ebt.stores.first
       expect(store.name).to eql("Store 1")
     end
 
     it "instantiates the last row correctly" do
-      store = ebt.rows.last
+      store = ebt.stores.last
       expect(store.name).to eql("Store 2")
       expect(store.address).to eql("2345 6th Street")
       expect(store.city).to eql("San Francisco")

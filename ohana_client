@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+$:.unshift "./lib"
+require 'cli_parser'
+require "yaml"
+require "ohanakapa"
+require "ebt_uploader"
+
+secrets = OpenStruct.new(YAML.load_file "config/secrets.yml")
+Ohanakapa.configure do |config|
+  config.api_endpoint = secrets.api_endpoint
+  config.api_token = secrets.api_token
+end
+
+args = CliParser.new.args
+if args.upload_ebt?
+  filename = args[:filename]
+  uploader = EbtUploader.new
+  uploader.upload_file(filename)
+else
+  puts "no"
+end
+

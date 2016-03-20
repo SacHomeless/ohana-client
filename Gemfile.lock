@@ -24,6 +24,7 @@ GEM
     sawyer (0.5.5)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
+    slop (4.3.0)
 
 PLATFORMS
   ruby
@@ -31,6 +32,7 @@ PLATFORMS
 DEPENDENCIES
   ohanakapa (~> 1.0)
   rspec
+  slop
 
 BUNDLED WITH
    1.11.2
