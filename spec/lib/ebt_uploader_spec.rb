@@ -13,18 +13,25 @@ describe EbtUploader do
   end
 
   describe "#upload" do
-
     it "creates the organization" do
-      expect(Ohanakapa).to receive(:post).with("organizations", query: { name: "Store 1", })
+      expect(Ohanakapa).to receive(:post).with("organizations", query: {
+        name: "Store 1",
+        description: "Store accepting EBT transactions",
+      })
       uploader.upload(ebt.stores.first)
     end
 
     it "creates the location" do
       expect(Ohanakapa).to receive(:post).with("organizations/3/locations", query: {
         name: "Store 1",
-        address: "1234 5th Street",
-        city: "Sacramento",
-        state: "CA"
+        description: "Store accepting EBT transactions",
+        address_attributes: {
+          address_1: "1234 5th Street",
+          city: "Sacramento",
+          state: "CA",
+          postal_code: "11111",
+          country: "us"
+        }
       })
       uploader.upload(ebt.stores.first)
     end
