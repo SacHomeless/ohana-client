@@ -5,6 +5,7 @@ require 'cli_parser'
 require "yaml"
 require "ohanakapa"
 require "ebt_uploader"
+require "command_runner"
 
 secrets = OpenStruct.new(YAML.load_file "config/secrets.yml")
 Ohanakapa.configure do |config|
@@ -13,11 +14,5 @@ Ohanakapa.configure do |config|
 end
 
 args = CliParser.new.args
-if args.upload_ebt?
-  filename = args[:filename]
-  uploader = EbtUploader.new
-  uploader.upload_file(filename)
-else
-  puts "no"
-end
-
+runner = CommandRunner.new(args)
+runner.run
