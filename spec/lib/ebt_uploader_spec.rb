@@ -49,6 +49,12 @@ describe EbtUploader do
     end
   end
 
+  describe "#ebt_category" do
+    it "gets the ebt category" do
+      expect(uploader.ebt_category)
+    end
+  end
+
   describe "#purge_all" do
     let(:location) { OpenStruct.new( :id => 99 ) }
     before do

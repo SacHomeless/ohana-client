@@ -4,8 +4,16 @@ require 'ostruct'
 
 class EbtUploader
   def ebt_org
-    #@ebt ||= Ohanakapa.organization(62)
-    @ebt ||= OpenStruct.new(:id => 62)
+    #TODO
+    @ebt ||= Ohanakapa.organization(62)
+  end
+
+  def ebt_category
+    #TODO
+    #@ebt_category ||= Ohanakapa.organization(62)
+    #puts @ebt_category.to_s
+    #raise "halt"
+    @ebt_category ||= OpenStruct.new(:id => 1)
   end
 
   def upload(store)
@@ -13,7 +21,10 @@ class EbtUploader
       puts "Skipping nil store: #{store.inspect}"
       return
     end
-    Ohanakapa.post("organizations/#{ebt_org['id']}/locations", query: {
+
+    #Ohanakapa.post('locations/1/services', query: { name: 'Free Eye Exam', audience: 'Low-income children between the ages of 5 and 12.', description: 'Provides free eye exams for low-income children between the ages of 5 and 12.' })
+
+    result = Ohanakapa.post("organizations/#{ebt_org['id']}/locations", query: {
       name: store.name,
       description: "Store accepting EBT transactions",
       address_attributes: {
@@ -27,6 +38,13 @@ class EbtUploader
       latitude: store.latitude,
       longitude: store.longitude
     })
+    location_id = result.id
+
+    # A location service to add to all locations, with the standard category
+    service = Ohanakapa.post("locations/#{location_id}/services", query: { name: 'ebt', audience: 'EBT is accepted here.', description: 'EBT (Electronic Benefits Transfer) is accepted here.'} )
+
+    result = Ohanakapa.put("services/#{service.id}/categories", query: { taxonomy_ids: ['ebt'] } )
+     puts "Loaded #{store.name}"
   end
 
   def upload_file(filename)
@@ -34,7 +52,7 @@ class EbtUploader
     index = 0
     ebt.stores.each do |store|
       if store.state == 'CA'
-        if ['SACRAMENTO','YOLO','PLACER','EL DORADO','SUTTER'].include? store.county.upcase
+        if ['SACRAMENTO','YOLO','PLACER','SUTTER'].include? store.county.upcase
           index += 1
           upload(store)
         end
@@ -46,10 +64,13 @@ class EbtUploader
   def purge_all
     puts "PURGING EBT records"
     locations = Ohanakapa.get("organizations/#{ebt_org['id']}/locations")
-    puts "Found #{locations.size}"
-    locations.each do |location|
-      puts "Delete #{location.id} #{location.name}"
-      Ohanakapa.delete("locations/#{location.id}")
+    while locations.size > 0 do
+      puts "Found #{locations.size}"
+      locations.each do |location|
+        puts "Delete #{location.id} #{location.name}"
+        Ohanakapa.delete("locations/#{location.id}")
+      end
+      locations = Ohanakapa.get("organizations/#{ebt_org['id']}/locations")
     end
   end
 end
