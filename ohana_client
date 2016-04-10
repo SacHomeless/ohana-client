@@ -5,6 +5,7 @@ require 'cli_parser'
 require "yaml"
 require "ohanakapa"
 require "ebt_uploader"
+require "wic_uploader"
 require "command_runner"
 
 secrets = OpenStruct.new(YAML.load_file "config/secrets.yml")
