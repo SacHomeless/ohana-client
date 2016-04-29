@@ -13,7 +13,9 @@ class WicUploader
     #@wic_category ||= Ohanakapa.organization(62)
     #puts @ebt_category.to_s
     #raise "halt"
-    @wic_category ||= OpenStruct.new(:id => 12)
+    @wic_category ||= Ohanakapa.organization('wic')
+    raise if @wic_category.nil?
+    raise "@wic_category is #{@wic_category}"
   end
 
   def upload(store)
@@ -41,7 +43,6 @@ class WicUploader
     service = Ohanakapa.post("locations/#{location_id}/services", query: { name: 'wic', audience: 'WIC is accepted here.', description: 'WIC benefits are accepted here.'} )
 
     result = Ohanakapa.put("services/#{service.id}/categories", query: { taxonomy_ids: ['wic'] } )
-     puts "Loaded #{store.name}"
   end
 
   def upload_file(filename)

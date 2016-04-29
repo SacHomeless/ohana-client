@@ -5,7 +5,7 @@ require 'ostruct'
 class EbtUploader
   def ebt_org
     #TODO
-    @ebt ||= Ohanakapa.organization(62)
+    @ebt ||= Ohanakapa.organization('ebt')
   end
 
   def ebt_category
@@ -13,7 +13,9 @@ class EbtUploader
     #@ebt_category ||= Ohanakapa.organization(62)
     #puts @ebt_category.to_s
     #raise "halt"
-    @ebt_category ||= OpenStruct.new(:id => 1)
+    @ebt_category ||=  Ohanakapa.organization('ebt')
+    raise if @ebt_category.nil?
+    raise "@ebt_category is #{@ebt_category}"
   end
 
   def upload(store)
@@ -44,7 +46,7 @@ class EbtUploader
     service = Ohanakapa.post("locations/#{location_id}/services", query: { name: 'ebt', audience: 'EBT is accepted here.', description: 'EBT (Electronic Benefits Transfer) is accepted here.'} )
 
     result = Ohanakapa.put("services/#{service.id}/categories", query: { taxonomy_ids: ['ebt'] } )
-     puts "Loaded #{store.name}"
+    puts "Loaded #{store.name}.result of put was #{result}"
   end
 
   def upload_file(filename)

@@ -6,12 +6,16 @@ require "yaml"
 require "ohanakapa"
 require "ebt_uploader"
 require "wic_uploader"
+require "food_dist_uploader"
+require "tester"
 require "command_runner"
 
-secrets = OpenStruct.new(YAML.load_file "config/secrets.yml")
+secrets = OpenStruct.new(YAML.load_file "config/#{ENV['ENV']}.secrets.yml")
 Ohanakapa.configure do |config|
   config.api_endpoint = secrets.api_endpoint
   config.api_token = secrets.api_token
+  puts "token #{secrets.api_token}"
+  puts "endpoint #{secrets.api_endpoint}"
 end
 
 args = CliParser.new.args

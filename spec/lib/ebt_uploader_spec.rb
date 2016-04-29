@@ -59,7 +59,7 @@ describe EbtUploader do
     let(:location) { OpenStruct.new( :id => 99 ) }
     before do
       allow(uploader).to receive(:ebt_org).and_return(OpenStruct.new(:id => 3))
-      allow(Ohanakapa).to receive(:get).with("organizations/3/locations").and_return([location])
+      allow(Ohanakapa).to receive(:get).with("organizations/3/locations").and_return([location], [])
     end
 
     it "gets the ebt org's locations" do
