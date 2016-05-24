@@ -18,13 +18,16 @@ See that porject for example scripts to load these files.
 
 
 ==> ../Hack4Sac/data/federal_ebt_data.csv <==
+
 Store_Name,Longitude,Latitude,Address,Address Line #2,City,State,Zip5,Zip4,County
 "CIRCLE K STORE 8103",-80.082291,32.720379,"3603 Maybank Hwy","","Johns Island",SC,"29455","4825","CHARLESTON"
 
 ==> ../Hack4Sac/data/food_by_zip_code.csv <==
+
 Note- This information is updated periodically. Sacramento Food Bank & Family Services relies on partner agencies to help provide us with current,,,,,,,
 information. Please call ahead if possible to verify details and eligibility.,,,,,,,
 
 ==> ../Hack4Sac/data/wic_authorized_vendors.csv <==
+
 Vendor,Address,Second Address,City,Zip Code,County,Location
 11-C SUPERMARKET, 661 ROBERT'S LN,  ,BAKERSFIELD,93308, KERN,"(35.408042, -119.03373)"
